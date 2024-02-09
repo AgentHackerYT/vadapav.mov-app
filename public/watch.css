@@ -1,0 +1,54 @@
+body{
+    background-color: #000000;
+    color: #b4b4cc;
+    font-family: monospace;
+}
+
+.title{
+    color:#A387FD;
+}
+
+.topnav {
+    background-color: #1a1919;
+    overflow: hidden;
+  }
+  
+  /* Style the links inside the navigation bar */
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  /* Change the color of links on hover */
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  /* Add a color to the active/current link */
+  .topnav a.active {
+    background-color: #A387FD;
+    color: white;
+  }
+
+  .button {
+    background-color: #A387FD;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border: none;
+}
+.button:hover{
+    transform: scale(1.2);
+    background-color: #9172f8;
+}
+
+input{
+    height: 30px;
+}
+
+select{
+    height: 37px;
+}
