@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Vadapav Downloader</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="topnav">
+        <a href="./watch.html">Watch</a>
+        <a class="active" href="./index.html">Download</a>
+      </div>
+    <center>
+    <h1 class="title">Vadapav Downloader</h1>
+    <p>
+        <div class="inputbox">
+            <select name="server" id="server">
+                <option value="base">vadapav.mov</option>
+                <option value="drunk">drunk.vadapav.mov</option>
+              </select>
+            <input type="text" placeholder="Folder ID" id="fid">
+            <input type="text" name="output" id="output" placeholder="Output Directory">
+            <input type="submit" id="submit" class="button">
+        </div>
+    </center>
+        <br>
+        <div id="downloading">
+            
+        </div>
+        <br>
+        <div id="result" class="result">
+
+        </div>
+    </p>
+</body>
+</html>
