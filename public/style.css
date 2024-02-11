@@ -49,3 +49,38 @@ select{
     background-color: #A387FD;
     color: white;
   }
+
+  .main-checkbox label {
+    display: inline-block;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+  .main-checkbox input {
+    vertical-align: middle;
+  }
+  .main-checkbox label span {
+    vertical-align: middle;
+  }
+
+  
+.download-btn{  
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  padding: 2px 16px;
+  height: 32px;
+  min-width: 60px;
+  min-height: 32px;
+  border: none;
+  color: #fff;
+  background-color: rgb(88, 101, 242);
+  transition: background-color .17s ease,color .17s ease;
+}
+
+.download-btn:hover {
+  background-color: rgb(71, 82, 196);
+}
