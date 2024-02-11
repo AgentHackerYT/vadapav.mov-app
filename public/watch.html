@@ -6,12 +6,23 @@
     <title>Vadapav Streamer</title>
     <link rel="stylesheet" href="watch.css">
     <script>
+                function onChange(obj){
+            const server = document.getElementById("server").value
+            const video = document.getElementById("video")
+            video.style.display = "block"
+            if(server === "drunk"){
+                video.src = `https://drunk.vadapav.mov/f/${obj.value}`
+            }else{
+                video.src = `https://vadapav.mov/f/${obj.value}`
+            }
+        }
     </script>
 </head>
 <body>
     <div class="topnav">
         <a class="active" href="./watch.html">Watch</a>
         <a href="./index.html">Download</a>
+        <a href="https://discord.gg/RbF6rwBGej">Discord Server</a>
       </div>
       <center>
         <h1 class="title">Vadapav Streamer</h1>
@@ -26,7 +37,18 @@
             </div>
             <br>
             <br>
-            <video id="video" controls style="display: none;" width="480" height="260" autoplay></video>
+            <h1 id="loading" style="color: red;"></h1>
+            <br>
+            <div class="player">
+            <div id="epselect">
+                <select name="select" id="sel" style="display: none;" onchange="onChange(this)">
+
+                </select>
+            </div>
+            <video id="video" controls style="display: none;" width="720" height="340" autoplay>
+                Your System does not support HTML video.
+            </video>
+            </div>
         </center>
 </body>
 </html>
