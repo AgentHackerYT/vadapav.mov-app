@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,11 +5,20 @@
     <title>Vadapav Downloader</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" href="./style.css">
+    <script>
+        function toggle(source) {
+  const checkboxes = document.getElementsByClassName("checkbox");
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+        }
+    </script>
 </head>
 <body>
     <div class="topnav">
         <a href="./watch.html">Watch</a>
         <a class="active" href="./index.html">Download</a>
+        <a href="https://discord.gg/RbF6rwBGej">Discord Server</a>
       </div>
     <center>
     <h1 class="title">Vadapav Downloader</h1>
@@ -30,8 +38,13 @@
             
         </div>
         <br>
-        <div id="result" class="result">
-
+        <h1 style="display: none;" id="sf">Select files</h1>
+        <div id="results" class="results" style="margin-left: 30px;">
+            <div style="display: none;" id="sa">
+            <label class="main-checkbox"><input type="checkbox" name="all" id="all" onclick="toggle(this)"><span>Select All</span></label>
+            </div>
+            <div id="result" class="results"></div>
+            <button type="button" id="download" class="download-btn" style="display: none;">Download the selected</button>
         </div>
     </p>
 </body>
