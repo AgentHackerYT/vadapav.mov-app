@@ -2,39 +2,77 @@ const fetch = require('node-fetch').default;
 const fs = require('fs')
 const path = require('path')
 
+
 if (location.href.endsWith("index.html")){
 window.addEventListener('DOMContentLoaded', () => {
     document.getElementById("output").value = localStorage.getItem("output") || ""
     document.getElementById("submit").onclick = ()=>{
-
         const i = document.getElementById("fid")
         const o = document.getElementById("output").value || localStorage.getItem("output") || undefined
         if(!i.value) return alert("Directory ID missing");
         if(!o) return alert("Output location missing");
         localStorage.setItem("output", o)
         let files = []
-        fetch("https://vadapav.mov/api/d/"+i.value).then(x => x.json()).then(g =>{
+        let finalFiles = []
+        var finalURL = "" 
+
+        if(isValidUrl(i.value)){
+            finalURL = new URL(i.value).hash.replace("#","")
+        }else{
+            finalURL = i.value
+        }
+
+
+        fetch("https://vadapav.mov/api/d/"+finalURL).then(x => x.json()).then(g =>{
+            document.getElementById("sf").style.display = "block"
+            document.getElementById("sa").style.display = "block"
         //document.getElementById("fid").value = ""
         //document.getElementById("downloading").innerText = ""
         const list = document.getElementById("result")
-        //list.innerText = ""
+        list.innerText = ""
         g.data.files.forEach(x =>{
             if(x.dir) return;
             files.push(x)
         })
-
+        var i = 0
         files.forEach(x =>{
-
-            const h3 = document.createElement("h3")
-            h3.className = "list-text"
-            h3.innerText = x.name
-            list.appendChild(h3)
+            const cb = document.createElement("input")
+            cb.type = "checkbox"
+            cb.className = "checkbox"
+            cb.value = "checkbox"
+            cb.name = `${x.id};;;${x.name}`
+            const label1 = document.createElement("label")
+            label1.className = "main-checkbox"
+            const label = document.createElement("span")
+            label.for = `${x.id};;;${x.name}`
+            label.innerText = x.name
+            label.className = "list-text"
+            label1.appendChild(cb)
+            label1.appendChild(label)
+            i++
+            list.appendChild(label1)
+            list.appendChild(document.createElement('br'))
         })
 
-        }).then(x =>{
+        }).then(x => document.getElementById("download").style.display = "block")
             //downloader(files)
-            files.forEach(x => downloaderv2(x))
-        })
+            const down = document.getElementById("download")
+        var a = 0
+            down.onclick = () =>{
+            for(const file of document.getElementsByClassName("checkbox")){    
+            
+                    if(file.checked){
+                        const info = file.name.split(";;;")
+                        finalFiles.push({name: info[1], id: info[0]})
+                    }
+                    a++
+                    if(document.getElementsByClassName("checkbox").length === a + 1){
+                    finalFiles.forEach(x => downloaderv2(x))
+                    }
+    
+                }
+    
+            }
     }
 
 })
@@ -47,7 +85,6 @@ async function downloaderv2(files){
     const server = document.getElementById("server").value
     const o = document.getElementById("output").value || localStorage.getItem("output")
     if(server === "drunk") {
-        console.log("drunk")
         const s = (await fetch("https://drunk.vadapav.mov/f/"+ files.id)).body
         if(!fs.existsSync(o)) fs.mkdirSync(o);
         const stream = s.pipe(fs.createWriteStream(path.join(o, files.name)))
@@ -60,7 +97,6 @@ async function downloaderv2(files){
                 }, 500)
 
     }else{
-        console.log("base")
     const s = (await fetch("https://vadapav.mov/f/"+ files.id)).body
     if(!fs.existsSync(o)) fs.mkdirSync(o);
     const stream = s.pipe(fs.createWriteStream(path.join(o, files.name)))
@@ -71,88 +107,6 @@ async function downloaderv2(files){
         setInterval(() =>{
             downloadingText.innerText = `Currently Downloading: ${files.name}\n\n${formatBytes(stream.bytesWritten)}`
             }, 500)
-}
-
-}
-
-async function downloader(files){
-
-
-    if(!files[0] || typeof files[0] == "undefined") return alert("download completed");
-
-    const server = document.getElementById("server").value
-    const downloading = document.getElementById("downloading")
-
-    if(server === "drunk") {
-        console.log("drunk")
-        const s = (await fetch("https://drunk.vadapav.mov/f/"+ files[0].id)).body
-    
-        const stream = s.pipe(fs.createWriteStream(files[0].name))
-    
-        setInterval(() =>{
-            downloading.innerText = `Currently Downloading: ${files[0].name}\n\n${formatBytes(stream.bytesWritten)}`
-            }, 500)
-    
-        stream.on("finish", () =>{
-            files.shift()
-            downloader2(files)
-    
-        })
-    }else{
-        console.log("base")
-    const s = (await fetch("https://vadapav.mov/f/"+ files[0].id)).body
-
-    const stream = s.pipe(fs.createWriteStream(files[0].name))
-
-    setInterval(() =>{
-        downloading.innerText = `Currently Downloading: ${files[0].name}\n\n${formatBytes(stream.bytesWritten)}`
-        }, 500)
-
-    stream.on("finish", () =>{
-        files.shift()
-        downloader2(files)
-
-    })
-}
-
-}
-
-async function downloader2(files){
-
-    const server = document.getElementById("server").value
-    const downloading = document.getElementById("downloading")
-    if(!files[0] || typeof files[0] == "undefined") return alert("download completed");
-
-    if(server === "drunk") {
-        console.log("drunk")
-        const s = (await fetch("https://drunk.vadapav.mov/f/"+ files[0].id)).body
-    
-        const stream = s.pipe(fs.createWriteStream(files[0].name))
-    
-        setInterval(() =>{
-            downloading.innerText = `Currently Downloading: ${files[0].name}\n\n${formatBytes(stream.bytesWritten)}`
-            }, 500)
-    
-        stream.on("finish", () =>{
-            files.shift()
-            downloader(files)
-    
-        })
-    }else{
-        console.log("base")
-    const s = (await fetch("https://vadapav.mov/f/"+ files[0].id)).body
-
-    const stream = s.pipe(fs.createWriteStream(files[0].name))
-
-    setInterval(() =>{
-        downloading.innerText = `Currently Downloading: ${files[0].name}\n\n${formatBytes(stream.bytesWritten)}`
-        }, 500)
-
-    stream.on("finish", () =>{
-        files.shift()
-        downloader(files)
-
-    })
 }
 
 }
@@ -171,19 +125,62 @@ function formatBytes(bytes, decimals = 2) {
 
 }else if(location.href.endsWith("watch.html")){
     window.onload = () =>{
-
         document.getElementById("submit").onclick = ()=>{
             const i = document.getElementById("fid")
             if(!i.value) return alert("Enter a file id")
-            const video = document.getElementById("video")
-            const server = document.getElementById("server").value
-            video.style.display = "block"
-            if(server === "drunk"){
-                video.src = `https://drunk.vadapav.mov/f/${i.value}`
+            var finalURL = ""
+
+            if(isValidUrl(i.value)){
+                finalURL = new URL(i.value).hash.replace("#","")
             }else{
-                video.src = `https://vadapav.mov/f/${i.value}`
+                finalURL = i.value
             }
+
+            let files = []
+
+            fetch("https://vadapav.mov/api/d/"+finalURL).then(x => x.json()).then(g =>{
+
+            const el = document.getElementById("loading")
+            el.innerText = "Loading the stream may take some time."
+            window.scrollTo(0, document.body.scrollHeight);
+
+                g.data.files.forEach(x =>{
+                    if(x.dir) return;
+                    files.push(x)
+                })
+
+                const select = document.getElementById("sel")
+                select.style.display = "block"
+
+                select.innerHTML = ""
+
+                files.forEach(x =>{
+                    const option = document.createElement("option")
+                    option.value = x.id 
+                    option.innerText = x.name
+                    select.appendChild(option)
+                })
+                const server = document.getElementById("server").value
+                const video = document.getElementById("video")
+                video.style.display = "block"
+                if(server === "drunk"){
+                    video.src = `https://drunk.vadapav.mov/f/${files[0].id}`
+                }else{
+                    video.src = `https://vadapav.mov/f/${files[0].id}`
+                }
+
+
+            })
         }
 
     }
 }
+
+function isValidUrl(string) {
+    try {
+      new URL(string);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
