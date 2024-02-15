@@ -17,10 +17,12 @@ window.addEventListener('DOMContentLoaded', () => {
         var finalURL = "" 
 
         if(isValidUrl(i.value)){
-            finalURL = new URL(i.value).hash.replace("#","")
+            finalURL = new URL(i.value).pathname.replace(/\/*/g, "")
         }else{
             finalURL = i.value
         }
+
+        console.log(finalURL)
 
 
         fetch("https://vadapav.mov/api/d/"+finalURL).then(x => x.json()).then(g =>{
@@ -57,21 +59,15 @@ window.addEventListener('DOMContentLoaded', () => {
         }).then(x => document.getElementById("download").style.display = "block")
             //downloader(files)
             const down = document.getElementById("download")
-        var a = 0
             down.onclick = () =>{
             for(const file of document.getElementsByClassName("checkbox")){    
-            
                     if(file.checked){
                         const info = file.name.split(";;;")
                         finalFiles.push({name: info[1], id: info[0]})
-                    }
-                    a++
-                    if(document.getElementsByClassName("checkbox").length === a + 1){
-                    finalFiles.forEach(x => downloaderv2(x))
+                        downloaderv2({name: info[1], id: info[0]})
                     }
     
                 }
-    
             }
     }
 
@@ -129,21 +125,22 @@ function formatBytes(bytes, decimals = 2) {
             const i = document.getElementById("fid")
             if(!i.value) return alert("Enter a file id")
             var finalURL = ""
-
             if(isValidUrl(i.value)){
-                finalURL = new URL(i.value).hash.replace("#","")
+                finalURL = new URL(i.value).pathname.replace(/\/*/g, "")
             }else{
                 finalURL = i.value
             }
 
-            let files = []
+            console.log(finalURL)
 
+            let files = []
+            
             fetch("https://vadapav.mov/api/d/"+finalURL).then(x => x.json()).then(g =>{
 
             const el = document.getElementById("loading")
             el.innerText = "Loading the stream may take some time."
             window.scrollTo(0, document.body.scrollHeight);
-
+            console.log(g.data)
                 g.data.files.forEach(x =>{
                     if(x.dir) return;
                     files.push(x)
