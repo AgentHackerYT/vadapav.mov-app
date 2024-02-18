@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build-win": "electron-packager . Vadapav downloader --platform=win32 --out=dist --ignore='^/dist$' --prune --icon=favicon-32x32.ico --overwrite",
-    "build-linux": "electron-packager . Vadapav downloader --platform=linux --out=dist --ignore='^/dist$' --prune --icon=favicon-32x32.ico --overwrite",
+    "build-win": "electron-packager . Vadapav downloader --platform=win32 --out=dist --ignore='^/dist$' --prune --icon=favicon.ico --overwrite",
+    "build-linux": "electron-packager . Vadapav downloader --platform=linux --out=dist --ignore='^/dist$' --prune --icon=favicon.ico --overwrite",
     "build": "npm run build-win && npm run build-linux"
   },
   "keywords": [],
