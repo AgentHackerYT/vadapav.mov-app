@@ -78,30 +78,6 @@ async function downloaderv2(files){
 
     const server = document.getElementById("server").value
     const o = document.getElementById("output").value || localStorage.getItem("output")
-    if(server === "drunk") {
-        const s = (await fetch("https://drunk.vadapav.mov/f/"+ files.id,
-        { 
-            headers: {
-            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,/*;q=0.8',
-            'accept-language': 'en-US,en;q=0.5',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
-            'host': 'www.vadapav.mov'
-        }
-        }
-        ))
-        if(!fs.existsSync(o)) fs.mkdirSync(o);
-        const stream = s.body.pipe(fs.createWriteStream(path.join(o, files.name)))
-    
-        const downloadingText = document.createElement("h5")
-        const downloading = document.getElementById("downloading")
-        downloading.appendChild(downloadingText)
-        let lastWritten;
-        setInterval(() =>{
-            downloadingText.innerText = `Currently Downloading: ${files.name}\n\n${formatBytes(stream.bytesWritten)}/${formatBytes(s.headers.get("Content-Length"))}, Speed: ${formatBytes(stream.bytesWritten - lastWritten)}`
-            lastWritten = stream.bytesWritten
-            }, 1000)
-
-    }else if(server == "base"){
     const s = (await fetch("https://vadapav.mov"+ files.id,
     { 
         headers: {
@@ -122,28 +98,7 @@ async function downloaderv2(files){
             downloadingText.innerText = `Currently Downloading: ${files.name}\n\n${formatBytes(stream.bytesWritten)}/${formatBytes(s.headers.get("Content-Length"))}, Speed: ${formatBytes((stream.bytesWritten - lastWritten))}/sec`
             lastWritten = stream.bytesWritten
             }, 1000)
-    }else{
-        const s = (await fetch("https://dl.vadapav.mov"+ files.id,
-        { 
-            headers: {
-            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,/*;q=0.8',
-            'accept-language': 'en-US,en;q=0.5',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
-            'host': 'www,vadapav.mov'
-        }
-        }))
-        if(!fs.existsSync(o)) fs.mkdirSync(o);
-        const stream = s.body.pipe(fs.createWriteStream(path.join(o, files.name)))
-    
-        const downloadingText = document.createElement("h5")
-        const downloading = document.getElementById("downloading")
-        downloading.appendChild(downloadingText)
-        let lastWritten;
-            setInterval(() =>{
-                downloadingText.innerText = `Currently Downloading: ${files.name}\n\n${formatBytes(stream.bytesWritten)}/${formatBytes(s.headers.get("Content-Length"))}, Speed: ${formatBytes((stream.bytesWritten - lastWritten))}/sec`
-                lastWritten = stream.bytesWritten
-                }, 1000)
-    }
+
 
 }
 
@@ -197,13 +152,7 @@ function formatBytes(bytes, decimals = 2) {
                 const server = document.getElementById("server").value
                 const video = document.getElementById("video")
                 video.style.display = "block"
-                if(server === "drunk"){
-                    video.src = `https://drunk.vadapav.mov/f/${files[0].id}`
-                }else if(server === "base"){
                     video.src = `https://vadapav.mov/f/${files[0].id}`
-                }else{
-                    video.src = `https://dl.vadapav.mov/f/${files[0].id}`
-                }
 
 
             })
