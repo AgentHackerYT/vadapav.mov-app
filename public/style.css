@@ -1,19 +1,19 @@
 body{
     background-color: #000000;
     color: #b4b4cc;
-    font-family: monospace;
+    font-family: 'Ubuntu', sans-serif;
 }
 .title{
-    color:#A387FD;
+    color:#ff4e00;
 }
 .button {
-    background-color: #A387FD;
+    background-color: #ff4e00;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     border: none;
 }
 .button:hover{
     transform: scale(1.2);
-    background-color: #9172f8;
+    background-color: #ff4e00;
 }
 
 input{
@@ -36,6 +36,7 @@ select{
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
+    font-weight: 100;
   }
   
   /* Change the color of links on hover */
@@ -46,7 +47,7 @@ select{
   
   /* Add a color to the active/current link */
   .topnav a.active {
-    background-color: #A387FD;
+    background-color: #ff4e00;
     color: white;
   }
 
