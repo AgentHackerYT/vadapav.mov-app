@@ -78,7 +78,7 @@ async function downloaderv2(files){
 
     const server = document.getElementById("server").value
     const o = document.getElementById("output").value || localStorage.getItem("output")
-    const s = (await fetch("https://vadapav.mov"+ files.id,
+    const s = (await fetch("https://vadapav.mov/f/"+ files.id,
     { 
         headers: {
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,/*;q=0.8',
