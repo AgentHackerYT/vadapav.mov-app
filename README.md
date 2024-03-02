@@ -4,6 +4,9 @@
 ## Download
 - Input directory id or directory url
 - Select the files you want to download
+## Stream
+- Input directory id or directory url
+- Select the file from the dropbox which you would like to watch
 #### NOTE: URL/ID should contain final files and not directories
 # Preview 
 ## Downloading
