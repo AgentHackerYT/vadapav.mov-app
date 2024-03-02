@@ -158,7 +158,33 @@ function formatBytes(bytes, decimals = 2) {
             })
         }
 
-    }
+    }else if(location.href.endsWith("loading.html")){
+
+    fetch("https://vadapav.mov/api/d/").then(x =>{
+        if(x.status == 200){
+            document.getElementsByTagName("h1")[0].innerHTML = "Connected"
+            document.getElementsByTagName("center")[0].style.animation = "none"
+            document.getElementsByTagName("center")[0].style.opacity = "70%"
+            location.href = "./watch.html"
+        }else {
+            const c = document.getElementsByTagName("center")[0]
+            c.innerHTML = ""
+            const h1 = document.createElement("h1")
+            h1.innerHTML = "Failed To Connect"
+            h1.style.color = "red"
+            h1.style.fontSize = "80px"
+        }
+    }).catch(x =>{
+    setTimeout(() =>{
+        const c = document.getElementsByTagName("center")[0]
+        c.innerHTML = ""
+        const h1 = document.createElement("h1")
+        h1.innerHTML = "Failed To Connect"
+        h1.style.color = "red"
+        h1.style.fontSize = "80px"
+        c.appendChild(h1)
+    },1500)
+    })
 }
 
 function isValidUrl(string) {
