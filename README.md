@@ -23,3 +23,5 @@
 # Info
 - This app is an open source fan-made project
 - Made by jxnil.fr 
+# Compatibility 
+[![forthebadge](https://forthebadge.com/images/badges/works-on-my-machine.svg)](https://forthebadge.com)
