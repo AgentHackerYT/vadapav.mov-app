@@ -1,6 +1,7 @@
 # Vadapav.mov Downloader
 - Download and stream from vadapav.mov with ease
-- 
+<br>
+
 [![forthebadge](https://forthebadge.com/images/badges/not-a-bug-a-feature.svg)](https://forthebadge.com)
 # Usage
 ## Download
