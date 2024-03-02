@@ -13,7 +13,7 @@ function createWindow () {
     }
   })
 
-  win.loadFile('public/watch.html')
+  win.loadFile('public/loading.html')
 }
 
 app.whenReady().then(() => {
