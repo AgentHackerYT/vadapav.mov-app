@@ -6,5 +6,7 @@
 - Select the files you want to download
 #### NOTE: URL/ID should contain final files and not directories
 # Preview 
+## Downloading
 <img src="./img/download.png">
+## Streaming
 <img src="./img/stream.png">
