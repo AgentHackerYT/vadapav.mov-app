@@ -17,5 +17,5 @@
 <img src="./img/stream.png">
 
 # Info
-- This app is in no way affiliated with vadapav.mov and is an open source fan-made project
+- This app is an open source fan-made project
 - Made by jxnil.fr 
