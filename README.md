@@ -1,4 +1,4 @@
-# Vadapav.mov Downloader
+# Vadapav.mov App (Downloader and Streamer)
 - Download and stream from vadapav.mov with ease
 <br>
 
