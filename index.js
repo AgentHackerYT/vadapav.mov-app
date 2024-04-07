@@ -8,12 +8,12 @@ function createWindow () {
     width: 800,
     height: 600,
     webPreferences: {
-      preload:path.join(__dirname, 'preload.js'),
+      preload:path.join(__dirname, 'app.js'),
       nodeIntegration: true
     }
   })
 
-  win.loadFile('public/loading.html')
+  win.loadFile('public/index.html')
 }
 
 app.whenReady().then(() => {
@@ -25,6 +25,8 @@ app.whenReady().then(() => {
     }
   })
 })
+
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
