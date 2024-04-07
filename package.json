@@ -1,6 +1,6 @@
 {
-  "name": "vadapav-downloader",
-  "version": "2.1.0",
+  "name": "vpmov",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,9 +12,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^28.2.2"
+    "electron": "^29.1.5"
   },
   "dependencies": {
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^2.7.0",
+    "vlc-simple-player": "^0.5.1"
   }
 }
