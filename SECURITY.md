@@ -16,7 +16,7 @@ Supported Versions
 ### Emojis and their meanings
 - 🟨: Beta
 - :white_check_mark:: Functional
-- :x:: Don't Work as intended
+- :x:: Don't Work as intended/unsupported
 ## Reporting a Vulnerability
 
 Vulnerabilites can be reported via issue section or discord
