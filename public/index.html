@@ -1,52 +1,173 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+  <head>
     <meta charset="UTF-8">
-    <title>Vadapav Downloader</title>
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vadapav.mov</title>
     <script>
-        function toggle(source) {
-  const checkboxes = document.getElementsByClassName("checkbox");
-  for(var i=0, n=checkboxes.length;i<n;i++) {
-    checkboxes[i].checked = source.checked;
-  }
+      function down(el) {
+        const download = document.getElementById("downloading")
+        const isDown = download.getAttribute("d")
+        if (isDown === "close") {
+          download.style.display = "block"
+          download.setAttribute("d", "yes")
+          el.innerText = "🔼 Downloading"
+        } else {
+          download.style.display = "none"
+          download.setAttribute("d", "close")
+          el.innerText = "🔽 Downloading"
         }
+      }
+
+      function toggle(source) {
+        const checkboxes = document.getElementsByClassName("checkbox");
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+          checkboxes[i].checked = source.checked;
+        }
+      }
     </script>
-</head>
-<body>
-    <div class="topnav">
-        <a href="./watch.html">Watch</a>
-        <a class="active" href="./index.html">Download</a>
-        <a href="https://discord.gg/RbF6rwBGej">Discord Server</a>
-      </div>
-    <center>
-    <h1 class="title">Vadapav Downloader</h1>
-    <p>
-        <div class="inputbox">
-            <select name="server" id="server">
-                <option value="base">vadapav.mov</option>
-                <option value="drunk" disabled>drunk.vadapav.mov</option>
-                <option value="dl" disabled>dl.vadapav.mov</option>
-              </select>
-            <input type="text" placeholder="Folder ID" id="fid">
-            <input type="text" name="output" id="output" placeholder="Output Directory">
-            <input type="submit" id="submit" class="button">
-        </div>
+    <style>
+      .vlclogo {
+        border: 1px solid black;
+      }
+
+      .vlclogo:hover {
+        transform: scale(1.1);
+        cursor: pointer;
+      }
+
+      .dropdown-content {
+        margin-top: 10px;
+        position: relative;
+        display: inline;
+        display: none;
+        min-width: 200px;
+        width: fit-content;
+        padding: 12px 16px;
+        z-index: 1;
+        background-color: #ff7b00;
+        color: rgb(211, 211, 211);
+        border-radius: 5px;
+        float: right;
+      }
+
+      body {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        color: white;
+        background-color: #131414;
+        margin-left: 15px;
+      }
+
+      #dirs {
+        font-size: 40px;
+        cursor: pointer;
+        overflow-x: hidden;
+        overflow-y: visible;
+      }
+
+      button {
+        display: inline-block;
+        outline: none;
+        cursor: pointer;
+        border: 1px solid #ff4e00;
+        text-align: left;
+        vertical-align: top;
+        padding: calc(.375rem - 3px) 60px calc(.375rem - 3px) 12px;
+        background-color: #00000000;
+        font-size: 20px;
+        letter-spacing: 0.16px;
+        min-height: 40px;
+        line-height: 1.29;
+        color: #ff4e00;
+        font-weight: 400;
+        transition: background 70ms cubic-bezier(0, 0, .38, .9), box-shadow 70ms cubic-bezier(0, 0, .38, .9), border-color 70ms cubic-bezier(0, 0, .38, .9), outline 70ms cubic-bezier(0, 0, .38, .9);
+
+      }
+
+      button:hover {
+        background-color: #ff4e00;
+        color: #fff;
+      }
+
+      button:disabled {
+        background-color: #a83200;
+        color: #fff;
+        pointer-events: none;
+      }
+
+      .search {
+        padding: 6px 12px;
+        background: rgb(31, 32, 35);
+        border: 1px solid #ff4e00;
+        border-radius: 4px;
+        font-size: 13px;
+        color: rgb(247, 248, 248);
+        height: 25px;
+        width: 220px;
+        font-size: 11px;
+        appearance: none;
+        transition: border 0.15s ease 0s;
+      }
+
+      .search:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: rgb(100, 153, 255);
+      }
+
+      #dirs a {
+        background-color: #ff4e00;
+        /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: left;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        min-width: fit-content;
+        width: 500px;
+        border-radius: 10px;
+        margin-top: 10px;
+      }
+
+      label {
+        background-color: #ff4e00;
+        /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: left;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        width: 690px;
+        border-radius: 10px;
+        margin-top: 10px;
+      }
+
+      input[type="checkbox"] {
+        height: 20px;
+        width: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <center style="margin-bottom: 20px;">
+      <input type="text" placeholder="Search Movie/Show or Input Directory Link" id="search" class="search">
+      <button id="submit" style="padding: 0;border-radius: 4px; height: 20px;">🔎</button>
     </center>
-        <br>
-        <div id="downloading">
-            
-        </div>
-        <br>
-        <h1 style="display: none;" id="sf">Select files</h1>
-        <div id="results" class="results" style="margin-left: 30px;">
-            <div style="display: none;" id="sa">
-            <label class="main-checkbox"><input type="checkbox" name="all" id="all" onclick="toggle(this)"><span>Select All</span></label>
-            </div>
-            <div id="result" class="results"></div>
-            <button type="button" id="download" class="download-btn" style="display: none;">Download the selected</button>
-        </div>
-    </p>
-</body>
+    <button id="back" style="display:none;" back="/">Back</button>
+    <button id="download">Download</button>
+    <Button onclick="down(this)" id="ddb" style="display: none;position: relative; float: right;">🔽 Downloading</Button>
+    <div class="dropdown-content" id="downloading" d="close"></div>
+    <div style="display: none;margin-top: 20px;" id="sa">
+      <label class="main-checkbox">
+        <input type="checkbox" name="all" id="all" onclick="toggle(this)">
+        <span>Select All</span>
+      </label>
+      <br>
+    </div>
+    <div id="dirs" style="margin-top: 20px; "></div>
+  </body>
 </html>
