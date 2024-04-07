@@ -115,6 +115,27 @@
         border-color: rgb(100, 153, 255);
       }
 
+      
+      .oi {
+        padding: 6px 12px;
+        background: rgb(31, 32, 35);
+        border: 1px solid #ff4e00;
+        border-radius: 4px;
+        font-size: 20px;
+        color: rgb(247, 248, 248);
+        height: 25px;
+        width: 140px;
+        font-size: 15px;
+        appearance: none;
+        transition: border 0.15s ease 0s;
+      }
+
+      .oi:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: rgb(100, 153, 255);
+      }
+
       #dirs a {
         background-color: #ff4e00;
         /* Green */
@@ -159,6 +180,7 @@
     </center>
     <button id="back" style="display:none;" back="/">Back</button>
     <button id="download">Download</button>
+    <input type="text" placeholder="Output Folder" id="output" class="oi">
     <Button onclick="down(this)" id="ddb" style="display: none;position: relative; float: right;">🔽 Downloading</Button>
     <div class="dropdown-content" id="downloading" d="close"></div>
     <div style="display: none;margin-top: 20px;" id="sa">
