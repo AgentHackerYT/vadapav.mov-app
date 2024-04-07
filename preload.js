@@ -1,197 +1,211 @@
-const fetch = require('node-fetch').default;
-const fs = require('fs')
-const path = require('path')
+const fetch = require("node-fetch").default
+const fs = require("fs")
+const path = require("path")
 
+if (location.href.endsWith("index.html")) {
+  window.onload = () => {
+    showDir()
+    const down = document.getElementById("download")
+    down.onclick = () =>{
+    for(const file of document.getElementsByClassName("checkbox")){    
+            if(file.checked){
+                const info = file.name.split(";;;")
+                downloaderv2({name: info[1], id: info[0]})
+            }
 
-if (location.href.endsWith("index.html")){
-window.addEventListener('DOMContentLoaded', () => {
-    document.getElementById("output").value = localStorage.getItem("output") || ""
-    document.getElementById("submit").onclick = ()=>{
-        const i = document.getElementById("fid")
-        const o = document.getElementById("output").value || localStorage.getItem("output") || undefined
-        if(!i.value) return alert("Directory ID missing");
-        if(!o) return alert("Output location missing");
-        localStorage.setItem("output", o)
-        let files = []
-        let finalFiles = []
-        var finalURL = "" 
+        }
+      }
 
-        if(isValidUrl(i.value)){
-            finalURL = new URL(i.value).pathname.replace(/\/*/g, "")
+    const submitsearch = document.getElementById("submit")
+
+    submitsearch.onclick = () =>{
+      const i = document.getElementById("search")
+      var finalURL = "" 
+
+      if(isValidUrl(i.value)){
+          finalURL = new URL(i.value).pathname.replace(/\/*/g, "")
+      }else{
+          finalURL = i.value
+      }
+      fetch("https://vadapav.mov/api/s/" + finalURL).then(x => x.json())
+      .then(x =>{
+        if(x.data.length === 0){
+          showDir(finalURL)
         }else{
-            finalURL = i.value
-        }
-
-
-        fetch("https://vadapav.mov/api/d/"+finalURL).then(x => x.json()).then(g =>{
-            document.getElementById("sf").style.display = "block"
-            document.getElementById("sa").style.display = "block"
-        //document.getElementById("fid").value = ""
-        //document.getElementById("downloading").innerText = ""
-        const list = document.getElementById("result")
-        list.innerText = ""
-        g.data.files.forEach(x =>{
-            if(x.dir) return;
-            files.push(x)
-        })
-        var i = 0
-        files.forEach(x =>{
-            const cb = document.createElement("input")
-            cb.type = "checkbox"
-            cb.className = "checkbox"
-            cb.value = "checkbox"
-            cb.name = `${x.id};;;${x.name}`
-            const label1 = document.createElement("label")
-            label1.className = "main-checkbox"
-            const label = document.createElement("span")
-            label.for = `${x.id};;;${x.name}`
-            label.innerText = x.name
-            label.className = "list-text"
-            label1.appendChild(cb)
-            label1.appendChild(label)
-            i++
-            list.appendChild(label1)
-            list.appendChild(document.createElement('br'))
-        })
-
-        }).then(x => document.getElementById("download").style.display = "block")
-            //downloader(files)
-            const down = document.getElementById("download")
-            down.onclick = () =>{
-            for(const file of document.getElementsByClassName("checkbox")){    
-                    if(file.checked){
-                        const info = file.name.split(";;;")
-                        finalFiles.push({name: info[1], id: info[0]})
-                        downloaderv2({name: info[1], id: info[0]})
-                    }
-    
-                }
+          const el = document.getElementById("dirs")
+          el.innerHTML = ""
+          const back = document.getElementById("back")
+          back.disabled = false
+          back.setAttribute("back", "11111111-1111-1111-1111-111111111111")
+          x.data.forEach(x => {
+            const a = document.createElement("a")
+            if (x.dir === true) {
+              document.getElementById("sa").style.display = "none"
+              a.className = "dir"
+              a.id = x.id
+              a.innerText = "📁" + x.name
+              el.appendChild(a)
+              el.appendChild(document.createElement("br"))
+            } else {
+              document.getElementById("sa").style.display = ""
+              const vlcLogo = document.createElement("img")
+              vlcLogo.src = "https://upload.wikimedia.org/wikipedia/commons/3/38/VLC_icon.png"
+              vlcLogo.height = "18"
+              vlcLogo.width = "18"
+              vlcLogo.className = "vlclogo"
+              vlcLogo.alt = `${x.name}`
+              vlcLogo.onclick = () =>{
+                var VLC = require('vlc-simple-player')
+                new VLC(`https://vadapav.mov/f/${x.id}`)
+              }
+              const cb = document.createElement("input")
+              cb.type = "checkbox"
+              cb.className = "checkbox"
+              cb.value = "checkbox"
+              cb.name = `${x.id};;;${x.name}`
+              const label1 = document.createElement("label")
+              label1.className = "main-checkbox"
+              const label = document.createElement("span")
+              label.for = `${x.id};;;${x.name}`
+              label.innerHTML = "💾" + x.name + ` <b>${formatBytes(x.size)}<b>`
+              label.className = "list-text"
+              label1.appendChild(vlcLogo)
+              label1.appendChild(cb)
+              label1.appendChild(label)
+              el.appendChild(label1)
+              el.appendChild(document.createElement('br'))
             }
+          })
+        }
+        for (const dir of dirs) {
+          dir.onclick = () => {
+            const id = dir.id
+            showDir(id)
+          }
+        }
+      }).catch((e)=>{
+        console.log(e)
+      })
+      i.value = ""
     }
 
-})
+    document.getElementById("back").onclick = () => {
 
-async function downloaderv2(files){
+      showDir(document.getElementById("back").getAttribute("back"))
 
-
-    if(!files || typeof files == "undefined") return alert("download completed");
-
-    const server = document.getElementById("server").value
-    const o = document.getElementById("output").value || localStorage.getItem("output")
-    const s = (await fetch("https://vadapav.mov/f/"+ files.id,
-    { 
-        headers: {
-        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,/*;q=0.8',
-        'accept-language': 'en-US,en;q=0.5',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
-        'host': 'www.vadapav.mov'
     }
-    }))
-    if(!fs.existsSync(o)) fs.mkdirSync(o);
-    const stream = s.body.pipe(fs.createWriteStream(path.join(o, files.name)))
+    const dirs = document.getElementsByClassName("dir")
 
-    const downloadingText = document.createElement("h5")
-    const downloading = document.getElementById("downloading")
-    downloading.appendChild(downloadingText)
-    let lastWritten;
-        setInterval(() =>{
-            downloadingText.innerText = `Currently Downloading: ${files.name}\n\n${formatBytes(stream.bytesWritten)}/${formatBytes(s.headers.get("Content-Length"))}, Speed: ${formatBytes((stream.bytesWritten - lastWritten))}/sec`
-            lastWritten = stream.bytesWritten
-            }, 1000)
+    function showDir(dirid = "") {
+      const backbutton = document.getElementById("back")
 
+      if(dirid === "" || dirid.startsWith("1111")) backbutton.disabled = true
+      else backbutton.disabled = false
 
-}
+      fetch("https://vadapav.mov/api/d/" + dirid)
+        .then(g => g.json())
+        .then(data => {
+          const el = document.getElementById("dirs")
+          el.innerHTML = ""
+          const back = document.getElementById("back")
+          back.style.display = ""
+          back.setAttribute("back", data.data.parent || "")
+          data.data.files.forEach(x => {
+            const a = document.createElement("a")
+            if (x.dir === true) {
+              document.getElementById("sa").style.display = "none"
+              a.className = "dir"
+              a.id = x.id
+              a.innerText = "📁" + x.name
+              el.appendChild(a)
+              el.appendChild(document.createElement("br"))
+            } else {
+              document.getElementById("sa").style.display = ""
+              const vlcLogo = document.createElement("img")
+              vlcLogo.src = "https://upload.wikimedia.org/wikipedia/commons/3/38/VLC_icon.png"
+              vlcLogo.height = "18"
+              vlcLogo.width = "18"
+              vlcLogo.className = "vlclogo"
+              vlcLogo.alt = `${x.name}`
+              vlcLogo.onclick = () =>{
+                var VLC = require('vlc-simple-player')
+                new VLC(`https://vadapav.mov/f/${x.id}`)
+              }
+              const cb = document.createElement("input")
+              cb.type = "checkbox"
+              cb.className = "checkbox"
+              cb.value = "checkbox"
+              cb.name = `${x.id};;;${x.name}`
+              const label1 = document.createElement("label")
+              label1.className = "main-checkbox"
+              const label = document.createElement("span")
+              label.for = `${x.id};;;${x.name}`
+              label.innerHTML = "💾" + x.name + ` <b>${formatBytes(x.size)}<b>`
+              label.className = "list-text"
+              label1.appendChild(vlcLogo)
+              label1.appendChild(cb)
+              label1.appendChild(label)
+              el.appendChild(label1)
+              el.appendChild(document.createElement('br'))
+            }
+          })
 
-function formatBytes(bytes, decimals = 2) {
-    if (!+bytes) return '0 Bytes'
-
-    const k = 1024
-    const dm = decimals < 0 ? 0 : decimals
-    const sizes = ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
-
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-
-    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
-}
-
-}else if(location.href.endsWith("watch.html")){
-    window.onload = () =>{
-        document.getElementById("submit").onclick = ()=>{
-            const i = document.getElementById("fid")
-            if(!i.value) return alert("Enter a file id")
-            var finalURL = ""
-            if(isValidUrl(i.value)){
-                finalURL = new URL(i.value).pathname.replace(/\/*/g, "")
-            }else{
-                finalURL = i.value
+          for (const dir of dirs) {
+            dir.onclick = () => {
+              const id = dir.id
+              showDir(id)
             }
 
-            let files = []
-            
-            fetch("https://vadapav.mov/api/d/"+finalURL).then(x => x.json()).then(g =>{
+          }
 
-            const el = document.getElementById("loading")
-            el.innerText = "Loading the stream may take some time."
-            window.scrollTo(0, document.body.scrollHeight);
-                g.data.files.forEach(x =>{
-                    if(x.dir) return;
-                    files.push(x)
-                })
+        })
 
-                const select = document.getElementById("sel")
-                select.style.display = "block"
-
-                select.innerHTML = ""
-
-                files.forEach(x =>{
-                    const option = document.createElement("option")
-                    option.value = x.id 
-                    option.innerText = x.name
-                    select.appendChild(option)
-                })
-                const server = document.getElementById("server").value
-                const video = document.getElementById("video")
-                video.style.display = "block"
-                    video.src = `https://vadapav.mov/f/${files[0].id}`
+    }
 
 
-            })
-        }
 
-    }else if(location.href.endsWith("loading.html")){
+    async function downloaderv2(files, fp) {
+      const o = "./output"
+      const s = (await fetch("https://vadapav.mov/f/" + files.id, ))
+      if (!fs.existsSync(o)) fs.mkdirSync(o);
+      const stream = s.body.pipe(fs.createWriteStream(path.join(o, files.name)))
+      const downloadingText = document.createElement("h5")
+      const downloading = document.getElementById("downloading")
+      downloading.appendChild(downloadingText)
+        downloading.style.display = "block"
+        downloading.setAttribute("d", "yes")
+        document.getElementById("ddb").style.display = ""
+        document.getElementById("ddb").innerText = "🔼 Downloading"
 
-    fetch("https://vadapav.mov/api/d/").then(x =>{
-        if(x.status == 200){
-            document.getElementsByTagName("h1")[0].innerHTML = "Connected"
-            document.getElementsByTagName("center")[0].style.animation = "none"
-            document.getElementsByTagName("center")[0].style.opacity = "70%"
-            location.href = "./watch.html"
-        }else {
-            const c = document.getElementsByTagName("center")[0]
-            c.innerHTML = ""
-            const h1 = document.createElement("h1")
-            h1.innerHTML = "Failed To Connect"
-            h1.style.color = "red"
-            h1.style.fontSize = "80px"
-        }
-    }).catch(x =>{
-    setTimeout(() =>{
-        const c = document.getElementsByTagName("center")[0]
-        c.innerHTML = ""
-        const h1 = document.createElement("h1")
-        h1.innerHTML = "Failed To Connect"
-        h1.style.color = "red"
-        h1.style.fontSize = "80px"
-        c.appendChild(h1)
-    },1500)
-    })
+      let lastWritten;
+      setInterval(() => {
+        const percent = ((stream.bytesWritten / (s.headers.get("Content-Length"))) * 100).toPrecision(2)
+        downloadingText.innerText = `Currently Downloading: ${files.name}\n\n${formatBytes(stream.bytesWritten)}/${formatBytes(s.headers.get("Content-Length"))}  ${percent}%, Speed: ${formatBytes((stream.bytesWritten - lastWritten))}/sec`
+        
+        lastWritten = stream.bytesWritten
+      }, 1000)
+    }
+
+  }
 }
 
 function isValidUrl(string) {
-    try {
-      new URL(string);
-      return true;
-    } catch (err) {
-      return false;
-    }
+  try {
+    new URL(string);
+    return true;
+  } catch (err) {
+    return false;
   }
+}
+
+function formatBytes(bytes, decimals = 2) {
+  if (!+bytes) return '0 Bytes'
+
+  const k = 1024
+  const dm = decimals < 0 ? 0 : decimals
+  const sizes = ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+}
