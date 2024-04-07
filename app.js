@@ -4,9 +4,13 @@ const path = require("path")
 
 if (location.href.endsWith("index.html")) {
   window.onload = () => {
+    document.getElementById("output").value = localStorage.getItem("output") || ""
     showDir()
     const down = document.getElementById("download")
     down.onclick = () =>{
+      const o = document.getElementById("output").value || localStorage.getItem("output") || undefined
+      if(!o) return alert("Output location missing");
+      localStorage.setItem("output", o)
     for(const file of document.getElementsByClassName("checkbox")){    
             if(file.checked){
                 const info = file.name.split(";;;")
@@ -165,7 +169,7 @@ if (location.href.endsWith("index.html")) {
 
 
     async function downloaderv2(files, fp) {
-      const o = "./output"
+      const o = document.getElementById("output").value || localStorage.getItem("output")
       const s = (await fetch("https://vadapav.mov/f/" + files.id, ))
       if (!fs.existsSync(o)) fs.mkdirSync(o);
       const stream = s.body.pipe(fs.createWriteStream(path.join(o, files.name)))
