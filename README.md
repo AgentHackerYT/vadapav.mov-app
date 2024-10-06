@@ -2,7 +2,7 @@
 
 ![Vadapav.mov Logo](https://vadapav.mov/assets/favicon-32x32.png)
 
-Welcome to the **Vadapav.mov App**! 🎉 This **fan-made project** created by **jxnil.fr** is your ultimate solution for downloading your favorite movies and shows absolutely **FREE!** 🌟 Get ready for a delightful experience that transforms your binge-watching into a magical adventure!
+Welcome to the **Vadapav.mov App**! 🎉 This **fan-made project** created by **jxnil.fr** is your ultimate solution for downloading or streaming your favorite movies and shows absolutely **FREE!** 🌟 Get ready for a delightful experience that transforms your binge-watching into a magical adventure!
 
 ---
 
