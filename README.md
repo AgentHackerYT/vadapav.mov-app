@@ -3,7 +3,7 @@ $$
 $$
 
 $$
-\Large{\color{red}The \ app \ is \ no \ longer \ functional \ due \ to \ an \ API \ outage.}
+\Large{\color{red}The \ app \ is \ no \ longer \ functional \ due \ to \ API \ no \ longer \ available.}
 $$
 
 $$
