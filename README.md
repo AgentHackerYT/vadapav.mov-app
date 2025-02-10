@@ -1,5 +1,7 @@
-<span style="color:red; font-size: 30px;">⚠</span>.
-$${\color{red} Vadapav \space API \space is \space down \space so \space the \space app \space would \space no \space longer \space work}$$
+$$
+\huge{\color{red}⚠ \ Vadapav \ API \ is \ down, \ so \ the \ app \ would \ no \ longer \ work \ ⚠}
+$$
+
 # 🎬 **Vadapav.mov App** 🚀
 
 ![Vadapav.mov Logo](https://vadapav.mov/assets/favicon-32x32.png)
