@@ -1,3 +1,5 @@
+<span style="color:red; font-size: 30px;">⚠ Vadapav API down so it would no longer work!</span>.
+
 # 🎬 **Vadapav.mov App** 🚀
 
 ![Vadapav.mov Logo](https://vadapav.mov/assets/favicon-32x32.png)
