@@ -1,6 +1,15 @@
 $$
-\huge{\color{red}⚠ \ Vadapav \ API \ is \ down, \ so \ the \ app \ would \ no \ longer \ work \ ⚠}
+\huge{\color{red}⚠ \ Vadapav \ API \ is \ Down! \ ⚠}
 $$
+
+$$
+\Large{\color{red}The \ app \ is \ no \ longer \ functional \ due \ to \ an \ API \ outage.}
+$$
+
+$$
+\Large{\color{red}Stay \ tuned \ for \ further \ updates.}
+$$
+
 
 # 🎬 **Vadapav.mov App** 🚀
 
