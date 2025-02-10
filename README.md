@@ -1,4 +1,4 @@
-<span style="color:red; font-size: 30px;">⚠ Vadapav API down so it would no longer work!</span>.
+<span style="color:red; font-size: 30px;">⚠</span>.
 $${\color{red} Vadapav \space API \space is \space down \space so \space the \space app \space would \space no \space longer \space work}$$
 # 🎬 **Vadapav.mov App** 🚀
 
